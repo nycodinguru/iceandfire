@@ -1,26 +1,53 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import './styles/index.scss';
+import { Provider } from 'react-redux';
+import { Switch, Route, withRouter } from 'react-router-dom';
+//
+import store from './store';
+import Navbar from './components/Navbar';
+import Landing from './components/Landing';
+import Books from './components/Books';
+import Characters from './components/Characters';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+
+class App extends Component {
+  render() {
+    let routes = (
+      <Route
+        render={ (props) => (
+              <Fragment>
+                <Navbar />
+                <Provider
+                  store={store}
+                >
+                  <Switch><Route
+                      exact
+                      path="/"
+                      render={ props => <Landing />}
+                    />
+                    <Route
+                      exact
+                      path="/Books"
+                      render={ props => <Books />}
+                    />
+                    <Route
+                      exact
+                      path="/Characters"
+                      render={ props => <Characters />}
+                    />
+                  </Switch>
+                </Provider>
+              <div className="Footer"> Powered by apioficeandfire</div>
+              </Fragment>
+            )}
+          />
+      )
+
+      return routes;
+  }
 }
 
-export default App;
+export default withRouter(App);
